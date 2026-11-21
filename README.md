@@ -35,6 +35,15 @@ pip install -e .
 pytest
 ```
 
+## Running the system
+
+1. `python scripts/prepare_data.py`: clean the dataset
+2. `python scripts/train_models.py`: train and evaluate the models (about 4 minutes)
+3. `python scripts/make_samples.py`: create sample files for the dashboard
+4. Double-click `run_dashboard.cmd` (or run `streamlit run app/Analyse.py`); the dashboard opens at http://localhost:8501
+
+The dashboard has four pages: **Analyse** (upload flows, see detections and targeted services, download reports), **History** (saved analyses), **Model Performance** and **Service Map**.
+
 ## Dataset
 
 The system uses the port scan capture from **CICIDS2017** (Canadian Institute for
@@ -57,6 +66,6 @@ Place the file in `data/raw/`.
 | 2 | Model training and evaluation (`python scripts/train_models.py`, about 4 minutes) | Done |
 | 3 | Service discovery module (`python scripts/discover_services.py`) | Done |
 | 4 | SQLite database and analysis pipeline (`python scripts/init_db.py`) | Done |
-| 5 | Streamlit dashboard | Pending |
+| 5 | Streamlit dashboard (`run_dashboard.cmd` or `streamlit run app/Analyse.py`) | Done |
 | 6 | Testing | Pending |
 | 7 | Optional live demo with own capture | Pending |
