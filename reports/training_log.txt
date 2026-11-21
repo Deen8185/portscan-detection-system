@@ -1,0 +1,112 @@
+Duplicate-free data: 112,153 records | train 89,722 | test 22,431 | scans in test: 329
+
+======================================================================
+1. Model comparison (duplicate-free data, 80:20 split)   [1s elapsed]
+======================================================================
+                      accuracy  precision  recall      f1     fpr       tn   fp   fn     tp  train_seconds  predict_ms_per_1000_flows
+model                                                                                                                                
+Random Forest           0.9997     0.9969  0.9848  0.9908  0.0000  22101.0  1.0  5.0  324.0         3.4435                     2.8900
+Decision Tree           0.9996     0.9878  0.9878  0.9878  0.0002  22098.0  4.0  4.0  325.0         0.4672                     0.2161
+K-Nearest Neighbours    0.9998     1.0000  0.9848  0.9923  0.0000  22102.0  0.0  5.0  324.0         0.0583                   502.8183
+
+======================================================================
+2. 5-fold stratified cross-validation   [17s elapsed]
+======================================================================
+                     precision          recall              f1             fpr        
+                          mean     std    mean     std    mean     std    mean     std
+model                                                                                 
+Decision Tree           0.9879  0.0073  0.9903  0.0058  0.9891  0.0036  0.0002  0.0001
+K-Nearest Neighbours    0.9927  0.0056  0.9854  0.0045  0.9890  0.0041  0.0001  0.0001
+Random Forest           0.9952  0.0059  0.9915  0.0050  0.9933  0.0030  0.0001  0.0001
+
+Best model by mean cross-validated F1-score: Random Forest
+
+======================================================================
+3. Same comparison with duplicates kept (inflated evaluation)   [77s elapsed]
+======================================================================
+                      accuracy  precision  recall      f1     fpr  fn  fp  test_rows  test_rows_identical_to_a_training_row_pct  test_scans_identical_to_a_training_row_pct
+model                                                                                                                                                                      
+Random Forest           0.9999     1.0000  0.9999  0.9999  0.0000   4   1      57212                                      62.58                                        99.3
+Decision Tree           0.9998     0.9997  0.9999  0.9998  0.0003   4   8      57212                                      62.58                                        99.3
+K-Nearest Neighbours    0.9999     0.9999  0.9998  0.9999  0.0001   5   3      57212                                      62.58                                        99.3
+
+======================================================================
+4. Feature importance (Random Forest)   [142s elapsed]
+======================================================================
+                    feature  permutation_f1_drop_mean  permutation_f1_drop_std  impurity_importance
+Total Length of Fwd Packets                    0.4797                   0.0157               0.1545
+             PSH Flag Count                    0.4512                   0.0201               0.1106
+          Total Fwd Packets                    0.0313                   0.0035               0.0469
+             ACK Flag Count                    0.0257                   0.0062               0.0427
+     Init_Win_bytes_forward                    0.0047                   0.0017               0.0739
+              Flow IAT Mean                    0.0015                   0.0000               0.0286
+    Init_Win_bytes_backward                    0.0009                   0.0012               0.0572
+              Flow Duration                    0.0006                   0.0008               0.0206
+             Flow Packets/s                    0.0003                   0.0006               0.0245
+        Average Packet Size                    0.0003                   0.0006               0.1986
+      Fwd Packet Length Max                    0.0000                   0.0010               0.1544
+Total Length of Bwd Packets                    0.0000                   0.0000               0.0443
+             RST Flag Count                    0.0000                   0.0000               0.0000
+               Flow Bytes/s                    0.0000                   0.0000               0.0192
+             SYN Flag Count                    0.0000                   0.0000               0.0001
+     Total Backward Packets                   -0.0006                   0.0015               0.0239
+
+======================================================================
+5. Ablation: without the Init_Win_bytes features   [150s elapsed]
+======================================================================
+                                      accuracy  precision  recall      f1     fpr   fn   fp
+All 16 features                         0.9997     0.9969  0.9848  0.9908  0.0000  5.0  1.0
+Without Init_Win_bytes (14 features)    0.9995     0.9789  0.9848  0.9818  0.0003  5.0  7.0
+
+======================================================================
+6. Each feature on its own (Decision Tree, 5-fold F1)   [156s elapsed]
+======================================================================
+                    feature  f1_mean  f1_std
+    Init_Win_bytes_backward   0.3674  0.0035
+        Average Packet Size   0.2157  0.0033
+     Init_Win_bytes_forward   0.2075  0.0031
+Total Length of Fwd Packets   0.2071  0.0037
+              Flow IAT Mean   0.1171  0.0064
+      Fwd Packet Length Max   0.1135  0.0012
+               Flow Bytes/s   0.1040  0.0023
+Total Length of Bwd Packets   0.1023  0.0009
+             PSH Flag Count   0.0939  0.0008
+              Flow Duration   0.0858  0.0035
+             Flow Packets/s   0.0827  0.0054
+     Total Backward Packets   0.0603  0.0005
+          Total Fwd Packets   0.0488  0.0017
+             ACK Flag Count   0.0369  0.0001
+             SYN Flag Count   0.0300  0.0000
+             RST Flag Count   0.0289  0.0000
+
+======================================================================
+7. Threshold-based detection vs the model, on all 286k flows   [167s elapsed]
+======================================================================
+Scanner source also sent benign flows: 2
+                    detector  accuracy  precision  recall     f1    fpr     fp  fn
+  Threshold >= 2 targets/min    0.6024     0.5827  0.9999 0.7363 0.8937 113735  13
+  Threshold >= 3 targets/min    0.6354     0.6036  0.9999 0.7528 0.8194 104274  13
+  Threshold >= 5 targets/min    0.6738     0.6299  0.9999 0.7729 0.7331  93288  17
+ Threshold >= 10 targets/min    0.7131     0.6598  0.9976 0.7943 0.6419  81681 377
+ Threshold >= 15 targets/min    0.7371     0.6792  0.9976 0.8082 0.5880  74822 377
+ Threshold >= 20 targets/min    0.7539     0.6935  0.9976 0.8182 0.5503  70029 377
+ Threshold >= 30 targets/min    0.7815     0.7183  0.9976 0.8352 0.4882  62130 377
+ Threshold >= 50 targets/min    0.8254     0.7617  0.9976 0.8638 0.3896  49574 377
+Threshold >= 100 targets/min    0.9268     0.8851  0.9976 0.9380 0.1616  20561 377
+Threshold >= 200 targets/min    0.9916     0.9874  0.9976 0.9925 0.0159   2022 377
+Threshold >= 500 targets/min    0.9987     1.0000  0.9976 0.9988 0.0000      1 377
+ Random Forest (out-of-fold)    0.9999     0.9999  0.9999 0.9999 0.0001      8  14
+Best threshold by F1: 500
+
+======================================================================
+8. Slow scan simulation (threshold fixed at 500)   [211s elapsed]
+======================================================================
+ slowdown_factor  scan_flows_kept  threshold_recall  threshold_f1  model_recall  model_f1
+               1           158804            0.9976        0.9988        0.9999    0.9999
+              10            15986            0.8415        0.9139        0.9999    0.9997
+              50             3207            0.7711        0.8708        1.0000    0.9988
+             100             1543            0.0000        0.0000        1.0000    0.9974
+             500              282            0.0000        0.0000        1.0000    0.9860
+            1000              150            0.0000        0.0000        1.0000    0.9740
+
+Saved Random Forest to models/best_model.joblib

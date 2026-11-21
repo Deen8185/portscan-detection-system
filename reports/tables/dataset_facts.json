@@ -1,0 +1,25 @@
+{
+  "raw_rows": 286467,
+  "raw_columns": 85,
+  "valid_rows_before_dedup": 286060,
+  "model_rows": 112153,
+  "model_benign": 110510,
+  "model_portscan": 1643,
+  "portscan_share_after_dedup_pct": 1.46,
+  "feature_records_with_conflicting_labels": 0,
+  "duplicates_using_all_cicflowmeter_features": 72353,
+  "capture_start": "2017-07-07 13:00:00",
+  "capture_end": "2017-07-07 15:29:00",
+  "scan_source_ips": {
+    "172.16.0.1": 158804
+  },
+  "scan_destination_ips": {
+    "192.168.10.50": 158804
+  },
+  "distinct_ports_scanned": 1000,
+  "scan_flows_by_protocol": {
+    "6": 158797,
+    "0": 6,
+    "17": 1
+  }
+}

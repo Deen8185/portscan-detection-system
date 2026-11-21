@@ -1,0 +1,6 @@
+step,rows_removed,rows_remaining,benign,portscan
+Raw dataset,0,286467,127537,158930
+Keep BENIGN and PortScan labels only,0,286467,127537,158930
+Remove missing or infinite values,371,286096,127292,158804
+Remove negative timing values,36,286060,127256,158804
+Remove duplicate feature records,173907,112153,110510,1643

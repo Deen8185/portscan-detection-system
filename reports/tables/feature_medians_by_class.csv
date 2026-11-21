@@ -1,0 +1,17 @@
+,BENIGN,PortScan
+Flow Duration,48638.0,702.0
+Total Fwd Packets,2.0,2.0
+Total Backward Packets,2.0,1.0
+Total Length of Fwd Packets,70.0,0.0
+Total Length of Bwd Packets,166.0,6.0
+Fwd Packet Length Max,43.0,0.0
+Flow Bytes/s,4150.713178,10544.81547
+Flow Packets/s,74.72631602999999,4926.108374
+Flow IAT Mean,20888.333335,291.3333333
+SYN Flag Count,0.0,0.0
+RST Flag Count,0.0,0.0
+PSH Flag Count,0.0,1.0
+ACK Flag Count,0.0,0.0
+Average Packet Size,82.5,3.0
+Init_Win_bytes_forward,114.0,29200.0
+Init_Win_bytes_backward,-1.0,227.0
