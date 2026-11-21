@@ -1,0 +1,9 @@
+{
+  "ports_really_scanned": 1000,
+  "ports_discovered": 999,
+  "correctly_discovered": 999,
+  "missed": 1,
+  "reported_but_not_scanned": 0,
+  "port_coverage_pct": 99.9,
+  "reported_but_not_scanned_ports": []
+}

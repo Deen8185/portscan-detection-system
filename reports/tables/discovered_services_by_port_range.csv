@@ -1,0 +1,4 @@
+port_range,ports
+Dynamic (49152-65535),55
+Registered (1024-49151),790
+Well-known (0-1023),154

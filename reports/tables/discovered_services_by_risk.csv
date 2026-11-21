@@ -1,0 +1,5 @@
+risk_level,ports,hit_count
+High,17,2842
+Medium,17,3003
+Low,8,1405
+Unknown,957,151554
