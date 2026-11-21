@@ -1,0 +1,21 @@
+Test ID,Test case,Input,Expected result,Actual result,Status
+TC01,Dashboard start-up,Open the Analyse page,Page loads without errors; Analyse button stays disabled until a file is chosen,As expected,Pass
+TC02,Detect scans in an uploaded file,"Upload sample_mixed.csv (3,000 benign + 1,000 scan flows)","4,000 flows analysed, about 1,000 flagged as port scan, alert lists the high-risk services probed",As expected,Pass
+TC03,No false alarms on normal traffic,"Analyse sample_benign_only.csv (2,000 benign flows)",All flows classified benign; message 'No scanning activity detected',As expected,Pass
+TC04,Detect a pure port scan,Analyse sample_scan_only.csv (500 scan flows),At least 99% of flows flagged as port scan,As expected,Pass
+TC05,Reject a file of the wrong type,Upload a CSV without flow columns (sample_invalid.csv),Error naming the missing columns; nothing saved to the history,As expected,Pass
+TC06,Reject an empty file,Upload a 0-byte CSV file,Error 'not a readable CSV file'; the application does not crash,As expected,Pass
+TC07,Reject a file with no flow rows,A CSV with the correct header but no rows,Clear error that no rows could be analysed,As expected,Pass
+TC08,Skip unusable rows,sample_mixed.csv with 10 rows given infinite or missing values,"The 10 rows are skipped and reported; the other 3,990 are analysed",As expected,Pass
+TC09,Accept different column layouts,"Same flows with columns shuffled, an extra column added and header spaces removed",Identical predictions to the original file,As expected,Pass
+TC10,Accept files without address columns,"Flows with Flow ID, IP addresses, source port, protocol and timestamp removed (MachineLearningCSV layout)",Analysis succeeds; services found; targeted-host table left empty,As expected,Pass
+TC11,Save an analysis to the history,"Analyse sample_mixed.csv with 'Save' ticked, then open the History page",History lists the analysis with the same flow and scan counts,As expected,Pass
+TC12,Analyse without saving,Analyse sample_mixed.csv with 'Save' unticked,History stays empty,As expected,Pass
+TC13,Delete an analysis,"Save one analysis, then delete it",The analysis and all its targeted services are removed,As expected,Pass
+TC14,Map scanned ports to services,"Scan flows aimed at ports 22, 3389 and 1107","22 shown as SSH (Medium), 3389 as RDP (High), 1107 as Unknown service",As expected,Pass
+TC15,Download the report,Analyse sample_mixed.csv and use the download buttons,Three CSV downloads; flagged-flows report has one row per detected scan with a Prediction column,As expected,Pass
+TC16,Show model performance,Open the Model Performance page,Page loads; displayed F1-score and recall match the saved model's test results,As expected,Pass
+TC17,Search the service map,Open the Service Map page and search for '3389',"Exactly one row: RDP, High risk",As expected,Pass
+TC18,Detection accuracy on unseen data,"The 22,431 held-out test records (329 port scans)",F1-score at least 0.98 and false positive rate at most 0.1%,As expected,Pass
+TC19,Repeatable results,Analyse sample_mixed.csv twice,Both runs give identical predictions and services,As expected,Pass
+TC20,Warn about high-risk services,Analyse sample_scan_only.csv,"Alert names the high-risk services probed, e.g. FTP, SMB or RDP, with their ports",As expected,Pass

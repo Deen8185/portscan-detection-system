@@ -67,5 +67,5 @@ Place the file in `data/raw/`.
 | 3 | Service discovery module (`python scripts/discover_services.py`) | Done |
 | 4 | SQLite database and analysis pipeline (`python scripts/init_db.py`) | Done |
 | 5 | Streamlit dashboard (`run_dashboard.cmd` or `streamlit run app/Analyse.py`) | Done |
-| 6 | Testing | Pending |
+| 6 | Testing (`python scripts/test_report.py`, `python scripts/performance_test.py`) | Done |
 | 7 | Optional live demo with own capture | Pending |

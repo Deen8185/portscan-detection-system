@@ -28,6 +28,13 @@ def test_strip_column_names_removes_spaces():
     assert "Destination Port" in df.columns and "Label" in df.columns
 
 
+def test_duplicate_headers_after_stripping_keep_the_first_column():
+    df = pd.DataFrame([[1, 2, 3]], columns=["Flow Bytes/s", " Flow Bytes/s", " Label"])
+    out = strip_column_names(df)
+    assert list(out.columns) == ["Flow Bytes/s", "Label"]
+    assert out["Flow Bytes/s"].iloc[0] == 1
+
+
 def test_clean_encodes_labels():
     clean, _ = clean_dataset(make_flows())
     assert set(clean[TARGET_COLUMN]) == {0, 1}

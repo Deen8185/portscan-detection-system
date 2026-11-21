@@ -57,8 +57,13 @@ CREATE INDEX IF NOT EXISTS idx_targeted_services_log ON targeted_services(log_id
 """
 
 
-def connect(path: Path | str = config.DATABASE_PATH) -> sqlite3.Connection:
-    """Open the database, creating the tables and the service map if needed."""
+def connect(path: Path | str | None = None) -> sqlite3.Connection:
+    """Open the database, creating the tables and the service map if needed.
+
+    The default location is read when the function is called (not when the
+    module is imported), so tests can point config.DATABASE_PATH elsewhere.
+    """
+    path = path or config.DATABASE_PATH
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(path)
     conn.execute("PRAGMA foreign_keys = ON")
@@ -150,7 +155,7 @@ def delete_analysis(conn: sqlite3.Connection, log_id: int) -> bool:
 
 
 @contextmanager
-def open_db(path: Path | str = config.DATABASE_PATH):
+def open_db(path: Path | str | None = None):
     conn = connect(path)
     try:
         yield conn

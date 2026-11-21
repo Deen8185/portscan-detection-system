@@ -27,10 +27,15 @@ TARGET_COLUMN = "target"
 
 # ---------------------------------------------------------------- loading
 def strip_column_names(df: pd.DataFrame) -> pd.DataFrame:
-    """CICIDS2017 headers carry stray spaces (e.g. ' Destination Port')."""
+    """CICIDS2017 headers carry stray spaces (e.g. ' Destination Port').
+
+    If stripping makes two headers identical (e.g. 'Flow Bytes/s' and
+    ' Flow Bytes/s'), only the first column is kept, so a file with a
+    duplicated header is still analysed instead of failing.
+    """
     df = df.copy()
-    df.columns = df.columns.str.strip()
-    return df
+    df.columns = df.columns.astype(str).str.strip()
+    return df.loc[:, ~df.columns.duplicated()]
 
 
 def load_raw_dataset(path: Path | str = config.RAW_DATASET_PATH) -> pd.DataFrame:

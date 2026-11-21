@@ -1,0 +1,13 @@
+# Automated test summary
+
+Run on 2026-11-21 21:53.
+
+| file | covers | tests | passed | failed | skipped | seconds |
+|---|---|---|---|---|---|---|
+| test_setup.py | Project setup and settings | 5 | 5 | 0 | 0 | 1.8 |
+| test_preprocessing.py | Data loading, cleaning and input checks | 12 | 12 | 0 | 0 | 0.1 |
+| test_modeling.py | Model training, evaluation, selection and threshold baseline | 11 | 11 | 0 | 0 | 0.5 |
+| test_service_discovery.py | Service map and service discovery | 12 | 12 | 0 | 0 | 0.1 |
+| test_database.py | Database and end-to-end analysis pipeline | 13 | 13 | 0 | 0 | 0.6 |
+| test_system.py | System test cases TC01-TC20 (including the dashboard) | 20 | 20 | 0 | 0 | 11.4 |
+| Total |  | 73 | 73 | 0 | 0 | 14.6 |
