@@ -56,7 +56,7 @@ Place the file in `data/raw/`.
 | 1 | Data loading, cleaning and exploration (`python scripts/prepare_data.py`) | Done |
 | 2 | Model training and evaluation (`python scripts/train_models.py`, about 4 minutes) | Done |
 | 3 | Service discovery module (`python scripts/discover_services.py`) | Done |
-| 4 | SQLite database | Pending |
+| 4 | SQLite database and analysis pipeline (`python scripts/init_db.py`) | Done |
 | 5 | Streamlit dashboard | Pending |
 | 6 | Testing | Pending |
 | 7 | Optional live demo with own capture | Pending |
