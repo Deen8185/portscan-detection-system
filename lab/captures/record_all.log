@@ -1,0 +1,18 @@
+Lab ready.
+  scanner  10.10.0.1/24 -> target 10.10.0.2: reachable, internet OK
+  client   10.10.0.3/24 -> target 10.10.0.2: reachable, internet OK
+Lab ready.
+  scanner  10.10.0.1/24 -> target 10.10.0.2: reachable, internet OK
+  client   10.10.0.3/24 -> target 10.10.0.2: reachable, internet OK
+09:00:19 train_normal: 222 flows (scan  -> )
+09:03:48 train_syn: 1112 flows (scan 2026-11-22 09:00:52 -> 2026-11-22 09:00:52)
+09:07:11 train_connect: 1101 flows (scan 2026-11-22 09:04:20 -> 2026-11-22 09:04:20)
+09:10:31 train_syn_t3: 2122 flows (scan 2026-11-22 09:07:43 -> 2026-11-22 09:07:43)
+09:16:10 test_normal: 173 flows (scan  -> )
+09:20:36 test_version: 285 flows (scan 2026-11-22 09:16:42 -> 2026-11-22 09:17:01)
+09:24:57 test_udp: 413 flows (scan 2026-11-22 09:21:08 -> 2026-11-22 09:21:24)
+09:29:15 test_fin: 653 flows (scan 2026-11-22 09:25:29 -> 2026-11-22 09:25:30)
+09:36:56 test_fullrange: 65682 flows (scan 2026-11-22 09:29:47 -> 2026-11-22 09:29:48)
+09:54:39 test_slow: 665 flows (scan 2026-11-22 09:37:28 -> 2026-11-22 09:53:59)
+All scenarios recorded.
+EXIT 0

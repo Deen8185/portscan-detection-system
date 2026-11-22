@@ -1,0 +1,16 @@
+{
+  "scenario": "train_connect",
+  "nmap_args": "-sT -T4 --top-ports 1000",
+  "normal_seconds": 180,
+  "seed": 13,
+  "scanner_ip": "10.10.0.1",
+  "client_ip": "10.10.0.3",
+  "target_ip": "10.10.0.2",
+  "capture_start": "2026-11-22 09:03:50",
+  "capture_end": "2026-11-22 09:06:58",
+  "scan_start": "2026-11-22 09:04:20",
+  "scan_end": "2026-11-22 09:04:20",
+  "pcap_bytes": 15797369,
+  "flows": 1101,
+  "normal_log": "normal traffic: 74 actions in 180 s"
+}

@@ -1,0 +1,16 @@
+{
+  "scenario": "test_udp",
+  "nmap_args": "-sU -T4 --top-ports 50",
+  "normal_seconds": 240,
+  "seed": 24,
+  "scanner_ip": "10.10.0.1",
+  "client_ip": "10.10.0.3",
+  "target_ip": "10.10.0.2",
+  "capture_start": "2026-11-22 09:20:38",
+  "capture_end": "2026-11-22 09:24:45",
+  "scan_start": "2026-11-22 09:21:08",
+  "scan_end": "2026-11-22 09:21:24",
+  "pcap_bytes": 23550802,
+  "flows": 413,
+  "normal_log": "normal traffic: 110 actions in 240 s"
+}

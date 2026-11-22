@@ -1,6 +1,6 @@
 # System test cases
 
-Run on 2026-11-21 21:53: 20 of 20 passed.
+Run on 2026-11-22 10:08: 23 of 23 passed.
 
 | Test ID | Test case | Input | Expected result | Actual result | Status |
 |---|---|---|---|---|---|
@@ -24,3 +24,6 @@ Run on 2026-11-21 21:53: 20 of 20 passed.
 | TC18 | Detection accuracy on unseen data | The 22,431 held-out test records (329 port scans) | F1-score at least 0.98 and false positive rate at most 0.1% | As expected | Pass |
 | TC19 | Repeatable results | Analyse sample_mixed.csv twice | Both runs give identical predictions and services | As expected | Pass |
 | TC20 | Warn about high-risk services | Analyse sample_scan_only.csv | Alert names the high-risk services probed, e.g. FTP, SMB or RDP, with their ports | As expected | Pass |
+| TC21 | Recognise the flow format | Analyse lab_version_scan.csv (Python CICFlowMeter columns) | Format detected as Python CICFlowMeter; the lab model is used; scans detected | As expected | Pass |
+| TC22 | Detect a real slow scan | lab_slow_scan.csv: an Nmap SYN scan with 15 s between probes, mixed with normal traffic | At least 95% of scan flows detected and at most 1% of normal flows flagged | As expected | Pass |
+| TC23 | No false alarms on lab normal traffic | Analyse lab_normal_only.csv (web, SSH, FTP, database and internet use) | All flows classified benign | As expected | Pass |

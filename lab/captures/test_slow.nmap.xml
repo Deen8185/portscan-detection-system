@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Sun Nov 22 09:37:28 2026 as: nmap -n -sS -&#45;scan-delay 15s -&#45;max-retries 1 -p 1-60 -oX &quot;/mnt/c/Users/HP/Desktop/Portscan Detection System/portscan_detector/lab/captures/test_slow.nmap.xml&quot; 10.10.0.2 -->
+<nmaprun scanner="nmap" args="nmap -n -sS -&#45;scan-delay 15s -&#45;max-retries 1 -p 1-60 -oX &quot;/mnt/c/Users/HP/Desktop/Portscan Detection System/portscan_detector/lab/captures/test_slow.nmap.xml&quot; 10.10.0.2" start="1795336648" startstr="Sun Nov 22 09:37:28 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="60" services="1-60"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.0.2" addrtype="ipv4"/>
+<address addr="D2:17:D5:28:E8:D7" addrtype="mac"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1795336678" endtime="1795337639"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.0.2" addrtype="ipv4"/>
+<address addr="D2:17:D5:28:E8:D7" addrtype="mac"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="58">
+<extrareasons reason="reset" count="58" proto="tcp" ports="1-20,23-60"/>
+</extraports>
+<port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ftp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" method="table" conf="3"/></port>
+</ports>
+<times srtt="144" rttvar="50" to="15000000"/>
+</host>
+<runstats><finished time="1795337639" timestr="Sun Nov 22 09:53:59 2026" summary="Nmap done at Sun Nov 22 09:53:59 2026; 1 IP address (1 host up) scanned in 990.84 seconds" elapsed="990.84" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

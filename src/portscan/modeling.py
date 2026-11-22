@@ -106,12 +106,34 @@ def select_best(results: dict[str, dict]) -> str:
                                        -results[m]["fpr"]))
 
 
-def save_model(model, name: str, metrics: dict, extra: dict | None = None) -> None:
+CICIDS2017_FORMAT = "cicids2017"
+LAB_FORMAT = "python_cicflowmeter"
+
+
+def model_paths(flow_format: str = CICIDS2017_FORMAT):
+    """Model and metadata file for a flow format (read at call time so tests
+    can redirect the paths)."""
+    if flow_format == CICIDS2017_FORMAT:
+        return config.MODEL_PATH, config.MODEL_METADATA_PATH
+    if flow_format == LAB_FORMAT:
+        return config.LAB_MODEL_PATH, config.LAB_MODEL_METADATA_PATH
+    raise ValueError(f"No model is defined for flow format {flow_format!r}")
+
+
+def model_available(flow_format: str = CICIDS2017_FORMAT) -> bool:
+    model_path, meta_path = model_paths(flow_format)
+    return model_path.exists() and meta_path.exists()
+
+
+def save_model(model, name: str, metrics: dict, extra: dict | None = None,
+               flow_format: str = CICIDS2017_FORMAT) -> None:
     """Save the chosen model and a metadata file describing it."""
-    config.MODELS_DIR.mkdir(parents=True, exist_ok=True)
-    joblib.dump(model, config.MODEL_PATH)
+    model_path, meta_path = model_paths(flow_format)
+    model_path.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, model_path)
     metadata = {
         "model_name": name,
+        "flow_format": flow_format,
         "features": config.FEATURES,
         "class_names": {str(k): v for k, v in config.CLASS_NAMES.items()},
         "test_metrics": {k: float(v) for k, v in metrics.items()},
@@ -120,11 +142,13 @@ def save_model(model, name: str, metrics: dict, extra: dict | None = None) -> No
         "dataset": config.RAW_DATASET_NAME,
         **(extra or {}),
     }
-    config.MODEL_METADATA_PATH.write_text(json.dumps(metadata, indent=2))
+    meta_path.write_text(json.dumps(metadata, indent=2))
 
 
-def load_model():
-    """Load the saved model and its metadata (used by the dashboard)."""
-    model = joblib.load(config.MODEL_PATH)
-    metadata = json.loads(config.MODEL_METADATA_PATH.read_text())
+def load_model(flow_format: str = CICIDS2017_FORMAT):
+    """Load the saved model for a flow format and its metadata."""
+    model_path, meta_path = model_paths(flow_format)
+    model = joblib.load(model_path)
+    metadata = json.loads(meta_path.read_text())
+    metadata.setdefault("flow_format", flow_format)
     return model, metadata

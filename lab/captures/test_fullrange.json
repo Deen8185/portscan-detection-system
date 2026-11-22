@@ -1,0 +1,16 @@
+{
+  "scenario": "test_fullrange",
+  "nmap_args": "-sS -T4 -p-",
+  "normal_seconds": 240,
+  "seed": 26,
+  "scanner_ip": "10.10.0.1",
+  "client_ip": "10.10.0.3",
+  "target_ip": "10.10.0.2",
+  "capture_start": "2026-11-22 09:29:17",
+  "capture_end": "2026-11-22 09:33:23",
+  "scan_start": "2026-11-22 09:29:47",
+  "scan_end": "2026-11-22 09:29:48",
+  "pcap_bytes": 29264802,
+  "flows": 65682,
+  "normal_log": "normal traffic: 109 actions in 240 s"
+}

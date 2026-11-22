@@ -4,7 +4,7 @@ Run from the project folder:
     python scripts/test_report.py
 
 Outputs
-    reports/tables/system_test_cases.csv / .md   TC01-TC20 with input,
+    reports/tables/system_test_cases.csv / .md   TC01-TC23 with input,
                                                  expected and actual result
     reports/tables/unit_test_summary.csv / .md   tests per module
 """
@@ -27,7 +27,8 @@ MODULES = {
     "test_modeling.py": "Model training, evaluation, selection and threshold baseline",
     "test_service_discovery.py": "Service map and service discovery",
     "test_database.py": "Database and end-to-end analysis pipeline",
-    "test_system.py": "System test cases TC01-TC20 (including the dashboard)",
+    "test_formats.py": "Flow-format detection and per-format models",
+    "test_system.py": "System test cases TC01-TC23 (including the dashboard and lab model)",
 }
 
 

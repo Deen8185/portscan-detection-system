@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.98 scan initiated Sun Nov 22 09:16:43 2026 as: nmap -n -sV -T4 -&#45;top-ports 100 -oX &quot;/mnt/c/Users/HP/Desktop/Portscan Detection System/portscan_detector/lab/captures/test_version.nmap.xml&quot; 10.10.0.2 -->
+<nmaprun scanner="nmap" args="nmap -n -sV -T4 -&#45;top-ports 100 -oX &quot;/mnt/c/Users/HP/Desktop/Portscan Detection System/portscan_detector/lab/captures/test_version.nmap.xml&quot; 10.10.0.2" start="1795335403" startstr="Sun Nov 22 09:16:43 2026" version="7.98" xmloutputversion="1.05">
+<scaninfo type="syn" protocol="tcp" numservices="100" services="7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<hosthint><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.0.2" addrtype="ipv4"/>
+<address addr="D2:17:D5:28:E8:D7" addrtype="mac"/>
+<hostnames>
+</hostnames>
+</hosthint>
+<host starttime="1795335404" endtime="1795335421"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.0.2" addrtype="ipv4"/>
+<address addr="D2:17:D5:28:E8:D7" addrtype="mac"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="96">
+<extrareasons reason="reset" count="96" proto="tcp" ports="7,9,13,23,25-26,37,53,79,81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157"/>
+</extraports>
+<port protocol="tcp" portid="21"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ftp" product="vsftpd" version="3.0.5" ostype="Unix" method="probed" conf="10"><cpe>cpe:/a:vsftpd:vsftpd:3.0.5</cpe></service></port>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" product="OpenSSH" version="10.2p1 Ubuntu 2ubuntu3.8" extrainfo="Ubuntu Linux; protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:10.2p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" product="nginx" version="1.28.3" extrainfo="Ubuntu" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:igor_sysoev:nginx:1.28.3</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="3306"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="mysql" servicefp="SF-Port3306-TCP:V=7.98%I=7%D=11/22%Time=6B02A4F3%P=x86_64-pc-linux-gnu%r(NULL,6D,&quot;i\0\0\0\n11\.8\.6-MariaDB-5ubuntu0\.1\x20from\x20Ubuntu\0\xa0\0\0\0\^5,}Rar8\0\xfe\xff-\x02\0\xff\x81\x15\0\0\0\0\0\0=\0\0\0`Y~0pf1\\\^Cq2\0mysql_native_password\0&quot;)%r(GenericLines,A5,&quot;i\0\0\0\n11\.8\.6-MariaDB-5ubuntu0\.1\x20from\x20Ubuntu\0\xa0\0\0\0\^5,}Rar8\0\xfe\xff-\x02\0\xff\x81\x15\0\0\0\0\0\0=\0\0\0`Y~0pf1\\\^Cq2\0mysql_native_password\x004\0\0\x01\xffj\x04#HY000Proxy\x20header\x20is\x20not\x20accepted\x20from\x2010\.10\.0\.1&quot;)%r(LDAPBindReq,6D,&quot;i\0\0\0\n11\.8\.6-MariaDB-5ubuntu0\.1\x20from\x20Ubuntu\0\xb1\0\0\0\[Uti4d}f\0\xfe\xff-\x02\0\xff\x81\x15\0\0\0\0\0\0=\0\0\0i\\rHO5YAxZ;V\0mysql_native_password\0&quot;)%r(afp,6D,&quot;i\0\0\0\n11\.8\.6-MariaDB-5ubuntu0\.1\x20from\x20Ubuntu\0\xbc\0\0\x008i\*3btB-\0\xfe\xff-\x02\0\xff\x81\x15\0\0\0\0\0\0=\0\0\0WOf4nNz=`K6j\0mysql_native_password\0&quot;);" method="table" conf="3"/></port>
+</ports>
+<times srtt="37" rttvar="36" to="100000"/>
+</host>
+<runstats><finished time="1795335421" timestr="Sun Nov 22 09:17:01 2026" summary="Nmap done at Sun Nov 22 09:17:01 2026; 1 IP address (1 host up) scanned in 18.81 seconds" elapsed="18.81" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

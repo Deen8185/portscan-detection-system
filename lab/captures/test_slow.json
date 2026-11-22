@@ -1,0 +1,16 @@
+{
+  "scenario": "test_slow",
+  "nmap_args": "-sS --scan-delay 15s --max-retries 1 -p 1-60",
+  "normal_seconds": 960,
+  "seed": 22,
+  "scanner_ip": "10.10.0.1",
+  "client_ip": "10.10.0.3",
+  "target_ip": "10.10.0.2",
+  "capture_start": "2026-11-22 09:36:58",
+  "capture_end": "2026-11-22 09:54:04",
+  "scan_start": "2026-11-22 09:37:28",
+  "scan_end": "2026-11-22 09:53:59",
+  "pcap_bytes": 86166160,
+  "flows": 665,
+  "normal_log": "normal traffic: 416 actions in 960 s"
+}

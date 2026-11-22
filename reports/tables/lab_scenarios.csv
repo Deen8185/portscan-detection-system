@@ -1,0 +1,11 @@
+scenario,set,nmap,flows,scan_flows,normal_flows
+train_connect,train,-sT -T4 --top-ports 1000,1101,1000,101
+train_normal,train,(none),222,0,222
+train_syn,train,-sS -T4 --top-ports 1000,1112,1000,112
+train_syn_t3,train,-sS -T3 -p 1-2000,2122,2000,122
+test_fin,test,-sF -T4 --top-ports 500,653,504,149
+test_fullrange,test,-sS -T4 -p-,65682,65535,147
+test_normal,test,(none),173,0,173
+test_slow,test,-sS --scan-delay 15s --max-retries 1 -p 1-60,665,65,600
+test_udp,test,-sU -T4 --top-ports 50,413,246,167
+test_version,test,-sV -T4 --top-ports 100,285,140,145

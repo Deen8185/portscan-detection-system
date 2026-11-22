@@ -1,0 +1,7 @@
+scenario,description,flows,scan_flows,normal_flows,lab_recall,lab_precision,lab_f1,lab_false_alarms,lab_fpr,threshold_recall,threshold_false_alarms,cicids2017_model_recall,nmap_open_ports,open_ports_reported
+test_fin,FIN scan (-sF),653,504,149,1.0,1.0,1.0,0,0.0,1.0,43,0.0,,-
+test_fullrange,"All 65,535 ports (-p-)",65682,65535,147,1.0,1.0,1.0,0,0.0,1.0,0,0.0,"21/ftp, 22/ssh, 80/http, 3306/mysql",4/4
+test_normal,Normal use only,173,0,173,0.0,0.0,0.0,0,0.0,0.0,0,0.0,,-
+test_slow,Real slow scan (15 s between probes),665,65,600,1.0,1.0,1.0,0,0.0,0.0,0,0.0,"21/ftp, 22/ssh",2/2
+test_udp,UDP scan (-sU),413,246,167,0.7520325203252033,1.0,0.8584686774941995,0,0.0,1.0,44,0.0,,-
+test_version,Service/version scan (-sV),285,140,145,0.7142857142857143,1.0,0.8333333333333334,0,0.0,0.9357142857142857,0,0.0,"21/ftp, 22/ssh, 80/http, 3306/mysql",4/4

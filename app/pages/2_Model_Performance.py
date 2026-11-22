@@ -58,7 +58,7 @@ def figure(name, caption):
 
 
 tabs = st.tabs(["Model comparison", "Threshold detection vs ML", "Slow scans",
-                "Features", "Data cleaning"])
+                "Features", "Data cleaning", "Lab model (own traffic)"])
 
 with tabs[0]:
     comp = table("model_comparison.csv")
@@ -119,3 +119,35 @@ with tabs[4]:
         f = json.loads(facts.read_text())
         st.caption(f"Capture: {f['capture_start']} to {f['capture_end']}. "
                    f"{f['distinct_ports_scanned']:,} distinct ports were scanned.")
+
+with tabs[5]:
+    lab_meta_path = config.LAB_MODEL_METADATA_PATH
+    results = table("lab_test_results.csv")
+    if not lab_meta_path.exists() or results is None:
+        st.info("The lab model has not been trained yet (scripts/train_lab_model.py).")
+    else:
+        lab = json.loads(lab_meta_path.read_text())
+        lm = lab["test_metrics"]
+        st.markdown(
+            "Traffic recorded in the project lab (a scanner, a normal user and a target running FTP, "
+            "SSH, HTTP and MySQL) was converted with the Python CICFlowMeter. The CICIDS2017 model does "
+            "not work on these flows, because this exporter computes some features (durations, packet "
+            "lengths and TCP flag counts) differently from the 2017 tool. A second Random Forest was "
+            f"therefore trained on the lab's training scenarios ({', '.join(lab['train_scenarios'])}) and "
+            "tested on separate scenarios with scan types and speeds it never saw. Uploaded files are "
+            "matched to the right model automatically.")
+        c = st.columns(4)
+        c[0].metric("Average recall per scan scenario", f"{lab['macro_recall_scan_scenarios']:.2f}",
+                    help="Each held-out scan scenario counts equally, so the 65,535-flow full-range "
+                         "scan does not dominate.")
+        c[1].metric("Threshold detector, same average", f"{lab['macro_recall_threshold']:.2f}")
+        c[2].metric("Precision", f"{lm['precision']:.4f}")
+        c[3].metric("False alarms", f"{lab['false_alarms_total']} of {lab['normal_flows_total']:,} normal flows")
+        cols = ["description", "flows", "scan_flows", "lab_recall", "lab_false_alarms",
+                "threshold_recall", "cicids2017_model_recall", "open_ports_reported"]
+        show(results[cols].round(4).rename(columns={
+            "description": "Test scenario", "flows": "Flows", "scan_flows": "Scan flows",
+            "lab_recall": "Lab model recall", "lab_false_alarms": "Lab model false alarms",
+            "threshold_recall": "Threshold recall", "cicids2017_model_recall": "CICIDS2017 model recall",
+            "open_ports_reported": "Open services reported"}))
+        figure("fig_lab_scenarios.png", "Detection rate per held-out lab scenario")

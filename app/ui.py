@@ -25,13 +25,14 @@ def page_setup(title: str) -> None:
 
 
 @st.cache_resource(show_spinner="Loading the detection model ...")
-def get_model():
-    """Load the trained model once and share it between users and pages."""
-    return load_model()
+def get_model(flow_format: str = "cicids2017"):
+    """Load the model for a flow format once and share it between users and pages."""
+    return load_model(flow_format)
 
 
-def model_available() -> bool:
-    return config.MODEL_PATH.exists() and config.MODEL_METADATA_PATH.exists()
+def model_available(flow_format: str = "cicids2017") -> bool:
+    from portscan.modeling import model_available as available
+    return available(flow_format)
 
 
 def require_model() -> None:

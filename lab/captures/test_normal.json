@@ -1,0 +1,16 @@
+{
+  "scenario": "test_normal",
+  "nmap_args": "",
+  "normal_seconds": 300,
+  "seed": 21,
+  "scanner_ip": "10.10.0.1",
+  "client_ip": "10.10.0.3",
+  "target_ip": "10.10.0.2",
+  "capture_start": "2026-11-22 09:10:33",
+  "capture_end": "2026-11-22 09:15:40",
+  "scan_start": "",
+  "scan_end": "",
+  "pcap_bytes": 30154523,
+  "flows": 173,
+  "normal_log": "normal traffic: 127 actions in 300 s"
+}

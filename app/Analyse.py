@@ -11,15 +11,16 @@ import streamlit as st
 
 import ui
 from portscan import config, database
+from portscan.formats import FORMAT_LABELS, detect_format
 from portscan.pipeline import (PREDICTION_COLUMN, PROBABILITY_COLUMN,
                                InvalidFlowFile, analyse_flows)
 
 ui.page_setup("Analyse Network Flows")
 st.caption("Upload network flow records (a CSV file produced by CICFlowMeter). The system "
-           "classifies every flow as benign or port scan, then shows which services the "
+           "recognises which CICFlowMeter version made the file, classifies every flow as benign "
+           "or port scan with the model trained for that version, then shows which services the "
            "scans were aimed at.")
 ui.require_model()
-model, meta = ui.get_model()
 
 # ---------------------------------------------------------------- input
 samples = sorted(p.name for p in config.SAMPLES_DIR.glob("*.csv"))
@@ -32,7 +33,8 @@ if source == "Upload a file":
                                    + ", ".join(config.REQUIRED_UPLOAD_COLUMNS))
 else:
     sample_name = st.selectbox("Sample file", samples,
-                               help="Samples are real CICIDS2017 flows the model did not see during training.")
+                               help="sample_*: CICIDS2017 flows the CICIDS2017 model did not see in training. "
+                                    "lab_*: flows recorded in the project lab that the lab model did not see.")
 
 col_a, col_b = st.columns([1, 3])
 save = col_b.checkbox("Save this analysis to the history", value=True)
@@ -44,14 +46,25 @@ if run:
         with st.spinner(f"Reading {file_name} ..."):
             src = upload if upload is not None else config.SAMPLES_DIR / sample_name
             df = pd.read_csv(src, encoding="latin1", low_memory=False)
+        flow_format = detect_format(df)
+        if flow_format is None:
+            raise InvalidFlowFile(
+                "Its columns do not match a supported flow format ("
+                + "; ".join(FORMAT_LABELS.values()) + "). It needs, for example, these columns: "
+                + ", ".join(config.REQUIRED_UPLOAD_COLUMNS) + ".")
+        if not ui.model_available(flow_format):
+            raise InvalidFlowFile(f"No model has been trained for {FORMAT_LABELS[flow_format]} yet.")
+        model, meta = ui.get_model(flow_format)
+        model_name = f"{meta['model_name']} ({'lab' if flow_format != 'cicids2017' else 'CICIDS2017'})"
         with st.spinner(f"Classifying {len(df):,} flows ..."):
             start = time.perf_counter()
             if save:
                 with database.open_db() as conn:
-                    result = analyse_flows(df, model=model, model_name=meta["model_name"],
-                                           file_name=file_name, conn=conn)
+                    result = analyse_flows(df, model=model, model_name=model_name, file_name=file_name,
+                                           conn=conn, model_format=flow_format)
             else:
-                result = analyse_flows(df, model=model, model_name=meta["model_name"], file_name=file_name)
+                result = analyse_flows(df, model=model, model_name=model_name, file_name=file_name,
+                                       model_format=flow_format)
             seconds = time.perf_counter() - start
         st.session_state["result"] = result
         st.session_state["result_meta"] = {"file_name": file_name, "seconds": seconds}
@@ -71,7 +84,9 @@ info = st.session_state["result_meta"]
 st.divider()
 st.subheader(f"Results for {info['file_name']}")
 saved = f" Saved as analysis #{result.log_id}." if result.log_id else " Not saved to the history."
-st.caption(f"{result.total_flows:,} flows classified by {result.model_used} in {info['seconds']:.1f} s.{saved}")
+fmt = FORMAT_LABELS.get(result.flow_format, "unknown format")
+st.caption(f"Detected format: {fmt}. {result.total_flows:,} flows classified by {result.model_used} "
+           f"in {info['seconds']:.1f} s.{saved}")
 if result.skipped_flows:
     st.warning(f"{result.skipped_flows:,} row(s) were skipped because they contain missing or "
                "infinite values.")

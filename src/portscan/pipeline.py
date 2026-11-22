@@ -13,6 +13,7 @@ import pandas as pd
 
 from . import config
 from .database import save_analysis
+from .formats import FORMAT_LABELS, to_canonical
 from .preprocessing import prepare_for_inference, strip_column_names, validate_columns
 from .service_discovery import DiscoveryResult, discover_services, targeted_hosts
 
@@ -31,6 +32,7 @@ class AnalysisResult:
     discovery: DiscoveryResult
     hosts: pd.DataFrame
     model_used: str
+    flow_format: str | None = None
     log_id: int | None = None
 
     @property
@@ -51,11 +53,21 @@ class AnalysisResult:
 
 
 def analyse_flows(df: pd.DataFrame, *, model, model_name: str, file_name: str,
-                  conn: sqlite3.Connection | None = None) -> AnalysisResult:
+                  conn: sqlite3.Connection | None = None,
+                  model_format: str | None = None) -> AnalysisResult:
     """Classify every flow, discover targeted services and (if a database
-    connection is given) store the summary. Raises InvalidFlowFile when the
-    file lacks required columns or has no usable rows."""
-    df = strip_column_names(df)
+    connection is given) store the summary.
+
+    The file's flow format is detected and its columns are renamed to the
+    CICIDS2017 names. When ``model_format`` is given, a file in a different
+    format is refused, because a model only works on flows from the
+    exporter it was trained with. Raises InvalidFlowFile when the file lacks
+    required columns, has no usable rows or does not match the model."""
+    df, flow_format = to_canonical(strip_column_names(df))
+    if model_format and flow_format and flow_format != model_format:
+        raise InvalidFlowFile(
+            f"This file was produced by {FORMAT_LABELS[flow_format]}, but the selected model "
+            f"was trained on {FORMAT_LABELS[model_format]}. Use the matching model.")
     missing = validate_columns(df)
     if missing:
         raise InvalidFlowFile(
@@ -74,7 +86,8 @@ def analyse_flows(df: pd.DataFrame, *, model, model_name: str, file_name: str,
 
     discovery = discover_services(flows, pred)
     result = AnalysisResult(flows=flows, skipped_flows=int((~valid).sum()), discovery=discovery,
-                            hosts=targeted_hosts(flows, pred), model_used=model_name)
+                            hosts=targeted_hosts(flows, pred), model_used=model_name,
+                            flow_format=flow_format)
     if conn is not None:
         result.log_id = save_analysis(
             conn, file_name=file_name, total_flows=result.total_flows,

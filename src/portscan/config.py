@@ -68,3 +68,10 @@ SELECTION_METRIC = "f1"  # the model with the highest F1-score is kept
 
 MODEL_PATH = MODELS_DIR / "best_model.joblib"
 MODEL_METADATA_PATH = MODELS_DIR / "model_metadata.json"
+
+# A second model, trained on lab traffic converted by the Python CICFlowMeter
+# (Phase 7). Each flow format is analysed by the model trained on it.
+LAB_DIR = PROJECT_ROOT / "lab"
+LAB_CAPTURES_DIR = LAB_DIR / "captures"
+LAB_MODEL_PATH = MODELS_DIR / "lab_model.joblib"
+LAB_MODEL_METADATA_PATH = MODELS_DIR / "lab_model_metadata.json"

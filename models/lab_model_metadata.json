@@ -1,0 +1,64 @@
+{
+  "model_name": "Random Forest",
+  "flow_format": "python_cicflowmeter",
+  "features": [
+    "Flow Duration",
+    "Total Fwd Packets",
+    "Total Backward Packets",
+    "Total Length of Fwd Packets",
+    "Total Length of Bwd Packets",
+    "Fwd Packet Length Max",
+    "Flow Bytes/s",
+    "Flow Packets/s",
+    "Flow IAT Mean",
+    "SYN Flag Count",
+    "RST Flag Count",
+    "PSH Flag Count",
+    "ACK Flag Count",
+    "Average Packet Size",
+    "Init_Win_bytes_forward",
+    "Init_Win_bytes_backward"
+  ],
+  "class_names": {
+    "0": "BENIGN",
+    "1": "PortScan"
+  },
+  "test_metrics": {
+    "accuracy": 0.9985118828365576,
+    "precision": 1.0,
+    "recall": 0.998480974582644,
+    "f1": 0.9992399099933021,
+    "fpr": 0.0,
+    "tn": 1381.0,
+    "fp": 0.0,
+    "fn": 101.0,
+    "tp": 66389.0
+  },
+  "trained_at": "2026-11-22T08:55:36+00:00",
+  "scikit_learn_version": "1.9.1",
+  "dataset": "Lab captures (Python CICFlowMeter 0.5)",
+  "train_scenarios": [
+    "train_connect",
+    "train_normal",
+    "train_syn",
+    "train_syn_t3"
+  ],
+  "test_scenarios": [
+    "test_fin",
+    "test_fullrange",
+    "test_normal",
+    "test_slow",
+    "test_udp",
+    "test_version"
+  ],
+  "train_records": 667,
+  "test_records": 67871,
+  "test_scans": 66490,
+  "cv_f1_mean": 0.9822134387351777,
+  "cv_f1_std": 0.024365272739007796,
+  "threshold_targets_per_min": 20,
+  "macro_recall_scan_scenarios": 0.8932636469221835,
+  "macro_recall_threshold": 0.7871428571428571,
+  "false_alarms_total": 0,
+  "normal_flows_total": 1381
+}

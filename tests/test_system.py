@@ -274,3 +274,43 @@ def test_tc20_high_risk_alert_contents(temp_db):
     alert = texts(at.error)
     assert "high-risk service" in alert
     assert any(f"{name} (" in alert for name in ("FTP", "SMB", "RDP", "Telnet", "MySQL", "MS-SQL", "Oracle", "NFS"))
+
+
+# ---------------------------------------------------------------- lab model (Phase 7)
+lab_needed = pytest.mark.skipif(
+    not (config.LAB_MODEL_PATH.exists() and (SAMPLES / "lab_slow_scan.csv").exists()),
+    reason="needs the lab model and lab sample files")
+
+
+@lab_needed
+def test_tc21_lab_format_detected(temp_db):
+    """TC21 | Recognise the flow format | Analyse lab_version_scan.csv (Python CICFlowMeter columns) | Format detected as Python CICFlowMeter; the lab model is used; scans detected"""
+    at = run_sample(new_app(), "lab_version_scan.csv")
+    assert not at.exception
+    assert "Python CICFlowMeter" in texts(at.caption)
+    assert "(lab)" in texts(at.caption)
+    assert count(metrics(at)["Port scan"]) > 0
+
+
+@lab_needed
+def test_tc22_real_slow_scan_detected():
+    """TC22 | Detect a real slow scan | lab_slow_scan.csv: an Nmap SYN scan with 15 s between probes, mixed with normal traffic | At least 95% of scan flows detected and at most 1% of normal flows flagged"""
+    from portscan.modeling import load_model
+    model, meta = load_model("python_cicflowmeter")
+    df = pd.read_csv(SAMPLES / "lab_slow_scan.csv")
+    result = analyse_flows(df, model=model, model_name=meta["model_name"], file_name="slow.csv",
+                           model_format="python_cicflowmeter")
+    flows = result.flows
+    is_scan = (flows["Source IP"] == "10.10.0.1") | (flows["Destination IP"] == "10.10.0.1")
+    flagged = flows[PREDICTION_COLUMN] == "PortScan"
+    assert flagged[is_scan].mean() >= 0.95
+    assert flagged[~is_scan].mean() <= 0.01
+
+
+@lab_needed
+def test_tc23_lab_normal_traffic(temp_db):
+    """TC23 | No false alarms on lab normal traffic | Analyse lab_normal_only.csv (web, SSH, FTP, database and internet use) | All flows classified benign"""
+    at = run_sample(new_app(), "lab_normal_only.csv")
+    assert not at.exception
+    assert count(metrics(at)["Port scan"]) == 0
+    assert NO_SCAN_MESSAGE in texts(at.success)

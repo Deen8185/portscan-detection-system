@@ -19,3 +19,7 @@ models/*.joblib
 .idea/
 Thumbs.db
 .DS_Store
+
+# Lab: raw captures stay in Ubuntu; the large full-range flow file is kept compressed
+lab/captures/test_fullrange.csv
+lab/smoke.csv
